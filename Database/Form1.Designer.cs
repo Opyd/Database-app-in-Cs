@@ -66,11 +66,26 @@
             this.button5 = new System.Windows.Forms.Button();
             this.i_iloscrekordow = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.w_liniowe = new System.Windows.Forms.Button();
+            this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.w_teks = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.wyszukiwanieGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -90,7 +105,7 @@
             this.Na_stanie});
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(846, 559);
+            this.dataGridView1.Size = new System.Drawing.Size(846, 800);
             this.dataGridView1.TabIndex = 0;
             // 
             // idd
@@ -475,11 +490,120 @@
             this.label15.TabIndex = 21;
             this.label15.Text = "Ilość rekordów:";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.comboBox1);
+            this.groupBox5.Controls.Add(this.w_teks);
+            this.groupBox5.Controls.Add(this.w_liniowe);
+            this.groupBox5.Location = new System.Drawing.Point(864, 556);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(287, 147);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Wyszukiwania";
+            // 
+            // w_liniowe
+            // 
+            this.w_liniowe.Location = new System.Drawing.Point(185, 94);
+            this.w_liniowe.Name = "w_liniowe";
+            this.w_liniowe.Size = new System.Drawing.Size(87, 25);
+            this.w_liniowe.TabIndex = 0;
+            this.w_liniowe.Text = "Liniowe";
+            this.w_liniowe.UseVisualStyleBackColor = true;
+            this.w_liniowe.Click += new System.EventHandler(this.w_liniowe_Click);
+            // 
+            // wyszukiwanieGrid
+            // 
+            this.wyszukiwanieGrid.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
+            this.wyszukiwanieGrid.AllowUserToAddRows = false;
+            this.wyszukiwanieGrid.AllowUserToDeleteRows = false;
+            this.wyszukiwanieGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.wyszukiwanieGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewCheckBoxColumn1});
+            this.wyszukiwanieGrid.Location = new System.Drawing.Point(12, 12);
+            this.wyszukiwanieGrid.Name = "wyszukiwanieGrid";
+            this.wyszukiwanieGrid.Size = new System.Drawing.Size(846, 800);
+            this.wyszukiwanieGrid.TabIndex = 6;
+            this.wyszukiwanieGrid.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Rok wydania";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Tytuł albumu";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "Wykonawca";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Pochodzenie";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "Cena";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Ocena (1-10)";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Na stanie";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            // 
+            // w_teks
+            // 
+            this.w_teks.Location = new System.Drawing.Point(185, 41);
+            this.w_teks.Name = "w_teks";
+            this.w_teks.Size = new System.Drawing.Size(87, 20);
+            this.w_teks.TabIndex = 22;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "ID",
+            "Rok wydania",
+            "Tytuł albumu",
+            "Wykonawca",
+            "Pochodzenie",
+            "Cena",
+            "Ocena",
+            "Na stanie"});
+            this.comboBox1.Location = new System.Drawing.Point(16, 40);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1168, 585);
+            this.ClientSize = new System.Drawing.Size(1187, 824);
+            this.Controls.Add(this.wyszukiwanieGrid);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -495,6 +619,9 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.wyszukiwanieGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -544,6 +671,19 @@
         private System.Windows.Forms.TextBox i_iloscrekordow;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button w_liniowe;
+        private System.Windows.Forms.DataGridView wyszukiwanieGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox w_teks;
     }
 }
 

@@ -4,15 +4,27 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Database {
 
     public partial class Form1 : Form {
 
+        public class Album {
+            int ID;
+            int release_year;
+            string album_title;
+            string artist;
+            string origin;
+            float price;
+            float rating;
+                
+        }
+
         public Form1() {
             InitializeComponent();
         }
-
+        List<Album> albums = new List<Album>();
         public int id = 1;
         private Stopwatch sw = new Stopwatch();
 
@@ -56,8 +68,9 @@ namespace Database {
             }
             return false;
         }
-
         private void button1_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
             int flaga = 0;
             if (!isValid(i_rokwydania.Text, 1)) {
                 label7.Visible = true;
@@ -96,12 +109,15 @@ namespace Database {
                 label11.Visible = false;
             }
             if (flaga == 0) {
+                dataGridView1.DataSource = albums;
                 dataGridView1.Rows.Add(id, i_rokwydania.Text, i_tytulalbumu.Text, i_wykonawca.Text, i_pochodzenie.Text, i_cena.Text, i_ocena.Text, i_nastanie.Checked);
                 id++;
             }
         }
 
         private void button2_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
             int rowIndex = 0;
             int flaga = 0;
             if (!isValid(i_id.Text, 6)) {
@@ -121,6 +137,8 @@ namespace Database {
         }
 
         private void button4_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
             using (TextWriter tw = new StreamWriter("baza.txt")) {
                 for (int i = 0; i < dataGridView1.Rows.Count; i++) {
                     for (int j = 0; j < dataGridView1.Columns.Count; j++) {
@@ -139,6 +157,8 @@ namespace Database {
         private int flaga_importu = 0;
 
         private void button3_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
             if (flaga_importu == 0) {
                 var lines = File.ReadAllLines("baza.txt");
                 if (lines.Count() > 0) {
@@ -158,6 +178,8 @@ namespace Database {
         }
 
         private void button5_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
             int x;
             bool nastanie;
@@ -201,6 +223,28 @@ namespace Database {
             int id = currentid;
             string[] row = new string[] { id.ToString(), rok.ToString(), tytuly[tIndex], wykonawcy[wIndex], pochodzenie[pIndex], cena.ToString(), ocena.ToString() };
             return row;
+        }
+
+
+        private void w_liniowe_Click(object sender, EventArgs e) {
+
+            string value = w_teks.Text;
+                    for (int i = 0; i < dataGridView1.RowCount - 1; i++) {
+                        if (dataGridView1.Rows[i].Cells[comboBox1.SelectedIndex].Value.ToString() == value) {
+                            wyszukiwanieGrid.Rows.Add(
+                                dataGridView1.Rows[i].Cells[0].Value,
+                                dataGridView1.Rows[i].Cells[1].Value,
+                                dataGridView1.Rows[i].Cells[2].Value,
+                                dataGridView1.Rows[i].Cells[3].Value,
+                                dataGridView1.Rows[i].Cells[4].Value,
+                                dataGridView1.Rows[i].Cells[5].Value,
+                                dataGridView1.Rows[i].Cells[6].Value,
+                                dataGridView1.Rows[i].Cells[7].Value
+                                );
+                        }
+                    }
+            dataGridView1.Visible = false;
+            wyszukiwanieGrid.Visible = true;
         }
     }
 }
