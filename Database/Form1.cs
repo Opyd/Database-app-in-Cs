@@ -227,9 +227,9 @@ namespace Database {
 
 
         private void w_liniowe_Click(object sender, EventArgs e) {
-
+            wyszukiwanieGrid.Rows.Clear();
             string value = w_teks.Text;
-                    for (int i = 0; i < dataGridView1.RowCount - 1; i++) {
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++) {
                         if (dataGridView1.Rows[i].Cells[comboBox1.SelectedIndex].Value.ToString() == value) {
                             wyszukiwanieGrid.Rows.Add(
                                 dataGridView1.Rows[i].Cells[0].Value,
@@ -245,6 +245,11 @@ namespace Database {
                     }
             dataGridView1.Visible = false;
             wyszukiwanieGrid.Visible = true;
+        }
+
+        private void button6_Click(object sender, EventArgs e) {
+            dataGridView1.Visible = true;
+            wyszukiwanieGrid.Visible = false;
         }
     }
 }

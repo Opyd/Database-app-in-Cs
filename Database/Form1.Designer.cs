@@ -79,6 +79,7 @@
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.w_teks = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -492,6 +493,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.button6);
             this.groupBox5.Controls.Add(this.comboBox1);
             this.groupBox5.Controls.Add(this.w_teks);
             this.groupBox5.Controls.Add(this.w_liniowe);
@@ -597,6 +599,16 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 23;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(16, 94);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(91, 25);
+            this.button6.TabIndex = 24;
+            this.button6.Text = "Powrót";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -684,6 +696,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox w_teks;
+        private System.Windows.Forms.Button button6;
     }
 }
 
