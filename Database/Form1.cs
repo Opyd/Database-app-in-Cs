@@ -5,28 +5,33 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Database {
 
     public partial class Form1 : Form {
 
-        public class Album {
-            int ID;
-            int release_year;
-            string album_title;
-            string artist;
-            string origin;
-            float price;
-            float rating;
-                
-        }
-
         public Form1() {
             InitializeComponent();
+            
         }
-        List<Album> albums = new List<Album>();
+        public class Album {
+            public int ID { get; set; }
+            public int release_year { get; set; }
+            public string album_title { get; set; }
+            public string artist { get; set; }
+            public string origin { get; set; }
+            public double price { get; set; }
+            public double rating { get; set; }
+            public bool isAvailable { get; set; }
+
+        }
+        
         public int id = 1;
         private Stopwatch sw = new Stopwatch();
+
+        List<Album> albums = new List<Album>();
+
 
         public static bool isValid(string text, int mode) {
             string strRegex;
@@ -109,16 +114,18 @@ namespace Database {
                 label11.Visible = false;
             }
             if (flaga == 0) {
-                dataGridView1.DataSource = albums;
-                dataGridView1.Rows.Add(id, i_rokwydania.Text, i_tytulalbumu.Text, i_wykonawca.Text, i_pochodzenie.Text, i_cena.Text, i_ocena.Text, i_nastanie.Checked);
+                albums.Add(new Album { ID = id, album_title = i_tytulalbumu.Text, artist = i_wykonawca.Text, isAvailable = i_nastanie.Checked, origin = i_pochodzenie.Text, price = Convert.ToDouble(i_cena.Text), rating = Convert.ToDouble(i_ocena.Text), release_year = Convert.ToInt32(i_rokwydania.Text) });
+                //dataGridView1.Rows.Add(id, i_rokwydania.Text, i_tytulalbumu.Text, i_wykonawca.Text, i_pochodzenie.Text, i_cena.Text, i_ocena.Text, i_nastanie.Checked);
                 id++;
+                var bindingList = new BindingList<Album>(albums);
+                var source = new BindingSource(bindingList, null);
+                dataGridView1.DataSource = source;
             }
         }
 
         private void button2_Click(object sender, EventArgs e) {
             dataGridView1.Visible = true;
             wyszukiwanieGrid.Visible = false;
-            int rowIndex = 0;
             int flaga = 0;
             if (!isValid(i_id.Text, 6)) {
                 flaga = 1;
@@ -127,13 +134,16 @@ namespace Database {
                 label14.Visible = false;
             }
             if (flaga == 0) {
-                foreach (DataGridViewRow row in dataGridView1.Rows) {
-                    if (row.Cells[0].Value.ToString() == i_id.Text) {
-                        dataGridView1.Rows.RemoveAt(row.Index);
+                foreach (Album album in albums) {
+                    if (album.ID == Convert.ToInt32(i_id.Text)) {
+                        albums.Remove(album);
                         break;
                     }
                 }
             }
+            var bindingList = new BindingList<Album>(albums);
+            var source = new BindingSource(bindingList, null);
+            dataGridView1.DataSource = source;
         }
 
         private void button4_Click(object sender, EventArgs e) {
@@ -181,8 +191,6 @@ namespace Database {
             dataGridView1.Visible = true;
             wyszukiwanieGrid.Visible = false;
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
-            int x;
-            bool nastanie;
             int flaga = 0;
             if (!isValid(i_iloscrekordow.Text, 6)) {
                 flaga = 1;
@@ -194,23 +202,26 @@ namespace Database {
                 int n = Convert.ToInt32(i_iloscrekordow.Text);
                 sw.Start();
                 for (int i = 0; i < n; i++) {
-                    x = rnd.Next(0, 2);
-                    if (x == 0) {
-                        nastanie = false;
-                    } else {
-                        nastanie = true;
-                    }
-                    dataGridView1.Rows.Add(losowanie(id));
-                    dataGridView1.Rows[i].Cells[7].Value = nastanie;
+                    losowanie(id);
                     id++;
                 }
+                var bindingList = new BindingList<Album>(albums);
+                var source = new BindingSource(bindingList, null);
+                dataGridView1.DataSource = source;
                 sw.Stop();
                 MessageBox.Show("Czas losowania: " + sw.ElapsedMilliseconds.ToString() + " ms");
+
             }
         }
 
-        public static string[] losowanie(int currentid) {
+        public void losowanie(int currentid) {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
+            bool nastanie;
+            if (rnd.Next(0, 2) == 0) {
+                nastanie = false;
+            } else {
+                nastanie = true;
+            }
             string[] wykonawcy = new string[] { "Abba", "Metallica", "Ich troje", "Band", "BBH", "Ye" };
             string[] tytuly = new string[] { "YTZ", "XYZ Odyssey", "KKKX", "WKXA", "PXA", "GMD" };
             string[] pochodzenie = new string[] { "Polska", "Niemcy", "Stany Zjednoczone", "Kostaryka", "Watykan", "Islandia" };
@@ -218,11 +229,11 @@ namespace Database {
             int tIndex = rnd.Next(tytuly.Length);
             int pIndex = rnd.Next(pochodzenie.Length);
             int rok = rnd.Next(1900, 2020);
-            int cena = rnd.Next(20, 200);
+            double cena = rnd.Next(20, 200);
             double ocena = Math.Round(rnd.NextDouble() * 10, 1);
             int id = currentid;
-            string[] row = new string[] { id.ToString(), rok.ToString(), tytuly[tIndex], wykonawcy[wIndex], pochodzenie[pIndex], cena.ToString(), ocena.ToString() };
-            return row;
+            //string[] row = new string[] { id.ToString(), rok.ToString(), tytuly[tIndex], wykonawcy[wIndex], pochodzenie[pIndex], cena.ToString(), ocena.ToString() };
+            albums.Add(new Album { ID = id, album_title = tytuly[tIndex], artist = wykonawcy[wIndex], isAvailable = nastanie, origin = pochodzenie[pIndex], price = cena, rating = ocena, release_year = rok });
         }
 
 

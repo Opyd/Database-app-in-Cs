@@ -24,14 +24,6 @@
         /// </summary>
         private void InitializeComponent() {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.idd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rok_wydania = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tytul_albumu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Wykonawca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Pochodzenie = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ocena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Na_stanie = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -67,6 +59,9 @@
             this.i_iloscrekordow = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.w_teks = new System.Windows.Forms.TextBox();
             this.w_liniowe = new System.Windows.Forms.Button();
             this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,9 +72,6 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.w_teks = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -95,59 +87,10 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idd,
-            this.Rok_wydania,
-            this.Tytul_albumu,
-            this.Wykonawca,
-            this.Pochodzenie,
-            this.Cena,
-            this.Ocena,
-            this.Na_stanie});
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(846, 800);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // idd
-            // 
-            this.idd.HeaderText = "ID";
-            this.idd.Name = "idd";
-            // 
-            // Rok_wydania
-            // 
-            this.Rok_wydania.HeaderText = "Rok wydania";
-            this.Rok_wydania.Name = "Rok_wydania";
-            // 
-            // Tytul_albumu
-            // 
-            this.Tytul_albumu.HeaderText = "Tytuł albumu";
-            this.Tytul_albumu.Name = "Tytul_albumu";
-            // 
-            // Wykonawca
-            // 
-            this.Wykonawca.HeaderText = "Wykonawca";
-            this.Wykonawca.Name = "Wykonawca";
-            // 
-            // Pochodzenie
-            // 
-            this.Pochodzenie.HeaderText = "Pochodzenie";
-            this.Pochodzenie.Name = "Pochodzenie";
-            // 
-            // Cena
-            // 
-            this.Cena.HeaderText = "Cena";
-            this.Cena.Name = "Cena";
-            // 
-            // Ocena
-            // 
-            this.Ocena.HeaderText = "Ocena (1-10)";
-            this.Ocena.Name = "Ocena";
-            // 
-            // Na_stanie
-            // 
-            this.Na_stanie.HeaderText = "Na stanie";
-            this.Na_stanie.Name = "Na_stanie";
             // 
             // groupBox1
             // 
@@ -504,6 +447,40 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Wyszukiwania";
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(16, 94);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(91, 25);
+            this.button6.TabIndex = 24;
+            this.button6.Text = "Powrót";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "ID",
+            "Rok wydania",
+            "Tytuł albumu",
+            "Wykonawca",
+            "Pochodzenie",
+            "Cena",
+            "Ocena",
+            "Na stanie"});
+            this.comboBox1.Location = new System.Drawing.Point(16, 40);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
+            // w_teks
+            // 
+            this.w_teks.Location = new System.Drawing.Point(185, 41);
+            this.w_teks.Name = "w_teks";
+            this.w_teks.Size = new System.Drawing.Size(87, 20);
+            this.w_teks.TabIndex = 22;
+            // 
             // w_liniowe
             // 
             this.w_liniowe.Location = new System.Drawing.Point(185, 94);
@@ -575,40 +552,6 @@
             this.dataGridViewCheckBoxColumn1.HeaderText = "Na stanie";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             // 
-            // w_teks
-            // 
-            this.w_teks.Location = new System.Drawing.Point(185, 41);
-            this.w_teks.Name = "w_teks";
-            this.w_teks.Size = new System.Drawing.Size(87, 20);
-            this.w_teks.TabIndex = 22;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "ID",
-            "Rok wydania",
-            "Tytuł albumu",
-            "Wykonawca",
-            "Pochodzenie",
-            "Cena",
-            "Ocena",
-            "Na stanie"});
-            this.comboBox1.Location = new System.Drawing.Point(16, 40);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 23;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(16, 94);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(91, 25);
-            this.button6.TabIndex = 24;
-            this.button6.Text = "Powrót";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -663,14 +606,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Rok_wydania;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tytul_albumu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wykonawca;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Pochodzenie;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cena;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ocena;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Na_stanie;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox i_id;
         private System.Windows.Forms.Label label13;
