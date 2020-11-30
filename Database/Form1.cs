@@ -238,29 +238,236 @@ namespace Database {
 
 
         private void w_liniowe_Click(object sender, EventArgs e) {
+            List<Album> Results = new List<Album>();
             wyszukiwanieGrid.Rows.Clear();
             string value = w_teks.Text;
+            sw.Start();
                     for (int i = 0; i < dataGridView1.Rows.Count; i++) {
                         if (dataGridView1.Rows[i].Cells[comboBox1.SelectedIndex].Value.ToString() == value) {
-                            wyszukiwanieGrid.Rows.Add(
-                                dataGridView1.Rows[i].Cells[0].Value,
-                                dataGridView1.Rows[i].Cells[1].Value,
-                                dataGridView1.Rows[i].Cells[2].Value,
-                                dataGridView1.Rows[i].Cells[3].Value,
-                                dataGridView1.Rows[i].Cells[4].Value,
-                                dataGridView1.Rows[i].Cells[5].Value,
-                                dataGridView1.Rows[i].Cells[6].Value,
-                                dataGridView1.Rows[i].Cells[7].Value
-                                );
+                    //    wyszukiwanieGrid.Rows.Add(
+                    //        dataGridView1.Rows[i].Cells[0].Value,
+                    //        dataGridView1.Rows[i].Cells[1].Value,
+                    //        dataGridView1.Rows[i].Cells[2].Value,
+                    //        dataGridView1.Rows[i].Cells[3].Value,
+                    //        dataGridView1.Rows[i].Cells[4].Value,
+                    //        dataGridView1.Rows[i].Cells[5].Value,
+                    //        dataGridView1.Rows[i].Cells[6].Value,
+                    //        dataGridView1.Rows[i].Cells[7].Value
+                    //        );
+                            Results.Add(new Album {
+                                ID = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value),
+                                release_year = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value),
+                                album_title = dataGridView1.Rows[i].Cells[2].Value.ToString(),
+                                artist = dataGridView1.Rows[i].Cells[3].Value.ToString(),
+                                origin = dataGridView1.Rows[i].Cells[4].Value.ToString(),
+                                price = Convert.ToDouble(dataGridView1.Rows[i].Cells[5].Value),
+                                rating = Convert.ToDouble(dataGridView1.Rows[i].Cells[6].Value),
+                                isAvailable = Convert.ToBoolean(dataGridView1.Rows[i].Cells[7].Value)
+                            });
                         }
                     }
+            sw.Stop();
+            var bindingList = new BindingList<Album>(Results);
+            var source = new BindingSource(bindingList, null);
+            wyszukiwanieGrid.DataSource = source;
             dataGridView1.Visible = false;
             wyszukiwanieGrid.Visible = true;
+            label17.Text = sw.ElapsedMilliseconds.ToString() + " ms.";
         }
 
         private void button6_Click(object sender, EventArgs e) {
             dataGridView1.Visible = true;
             wyszukiwanieGrid.Visible = false;
+        }
+
+        public class IDComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.ID.CompareTo(y.ID);
+            }
+
+        }
+        public class ArtistComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.artist.CompareTo(y.artist);
+            }
+
+        }
+
+        public class YearComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.release_year.CompareTo(y.release_year);
+            }
+
+        }
+        public class TitleComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.album_title.CompareTo(y.album_title);
+            }
+
+        }
+        public class OriginComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.origin.CompareTo(y.origin);
+            }
+
+        }
+        public class PriceComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.price.CompareTo(y.price);
+            }
+
+        }
+        public class RatingComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.rating.CompareTo(y.rating);
+            }
+
+        }
+        public class AvabilityComparer : IComparer<Album> {
+
+            public int Compare(Album x, Album y) {
+                return x.isAvailable.CompareTo(y.isAvailable);
+            }
+
+        }
+
+        private void w_binarne_Click(object sender, EventArgs e) {
+            bool fail = false;
+            wyszukiwanieGrid.Rows.Clear();
+            List<Album> SortedList = new List<Album>();
+            List<Album> Results = new List<Album>();
+            int property = comboBox1.SelectedIndex;
+            int position = 1;
+            switch (property) {
+                case 0:
+                    SortedList = albums.OrderBy(o => o.ID).ToList();
+                    sw.Start();
+                    while(position >= 0) {
+                        position = SortedList.BinarySearch(new Album { ID = Convert.ToInt32(w_teks.Text) }, new IDComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 1:
+                    SortedList = albums.OrderBy(o => o.release_year).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { release_year = Convert.ToInt32(w_teks.Text) }, new YearComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 2:
+                    SortedList = albums.OrderBy(o => o.album_title).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { album_title = w_teks.Text }, new TitleComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 3:
+                    SortedList = albums.OrderBy(o => o.artist).ToList();
+                    sw.Start();
+                    while(position >= 0) {
+                        position = SortedList.BinarySearch(new Album { artist = w_teks.Text }, new ArtistComparer());
+                        if(position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    
+                    break;
+                case 4:
+                    SortedList = albums.OrderBy(o => o.origin).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { origin = w_teks.Text }, new OriginComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 5:
+                    SortedList = albums.OrderBy(o => o.price).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { price = Convert.ToDouble(w_teks.Text) }, new PriceComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 6:
+                    SortedList = albums.OrderBy(o => o.rating).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { rating = Convert.ToDouble(w_teks.Text) }, new RatingComparer());
+                        if (position < 0) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+                case 7:
+                    SortedList = albums.OrderBy(o => o.isAvailable).ToList();
+                    sw.Start();
+                    while (position >= 0) {
+                        position = SortedList.BinarySearch(new Album { isAvailable = Convert.ToBoolean(w_teks.Text) }, new AvabilityComparer());
+                        if (position < 0 ) {
+                            fail = true;
+                            break;
+                        }
+                        Results.Add(SortedList.ElementAt(position));
+                        SortedList.RemoveAt(position);
+                    }
+                    sw.Stop();
+                    break;
+            }
+            var bindingList = new BindingList<Album>(Results);
+            var source = new BindingSource(bindingList, null);
+            wyszukiwanieGrid.DataSource = source;
+
+            dataGridView1.Visible = false;
+            wyszukiwanieGrid.Visible = true;
+            label17.Text = sw.Elapsed.ToString();
         }
     }
 }

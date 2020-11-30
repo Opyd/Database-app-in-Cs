@@ -59,19 +59,13 @@
             this.i_iloscrekordow = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.w_binarne = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.w_teks = new System.Windows.Forms.TextBox();
             this.w_liniowe = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
             this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -436,16 +430,27 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.w_binarne);
             this.groupBox5.Controls.Add(this.button6);
             this.groupBox5.Controls.Add(this.comboBox1);
             this.groupBox5.Controls.Add(this.w_teks);
             this.groupBox5.Controls.Add(this.w_liniowe);
             this.groupBox5.Location = new System.Drawing.Point(864, 556);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(287, 147);
+            this.groupBox5.Size = new System.Drawing.Size(287, 187);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Wyszukiwania";
+            // 
+            // w_binarne
+            // 
+            this.w_binarne.Location = new System.Drawing.Point(185, 134);
+            this.w_binarne.Name = "w_binarne";
+            this.w_binarne.Size = new System.Drawing.Size(87, 25);
+            this.w_binarne.TabIndex = 25;
+            this.w_binarne.Text = "Binarne";
+            this.w_binarne.UseVisualStyleBackColor = true;
+            this.w_binarne.Click += new System.EventHandler(this.w_binarne_Click);
             // 
             // button6
             // 
@@ -462,13 +467,13 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "ID",
-            "Rok wydania",
-            "Tytuł albumu",
-            "Wykonawca",
-            "Pochodzenie",
-            "Cena",
-            "Ocena",
-            "Na stanie"});
+            "release_year",
+            "album_title",
+            "artist",
+            "origin",
+            "price",
+            "rating",
+            "isAvailable"});
             this.comboBox1.Location = new System.Drawing.Point(16, 40);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
@@ -491,66 +496,24 @@
             this.w_liniowe.UseVisualStyleBackColor = true;
             this.w_liniowe.Click += new System.EventHandler(this.w_liniowe_Click);
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(874, 781);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(0, 13);
+            this.label17.TabIndex = 7;
+            // 
             // wyszukiwanieGrid
             // 
-            this.wyszukiwanieGrid.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.wyszukiwanieGrid.AllowUserToAddRows = false;
             this.wyszukiwanieGrid.AllowUserToDeleteRows = false;
             this.wyszukiwanieGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.wyszukiwanieGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewCheckBoxColumn1});
             this.wyszukiwanieGrid.Location = new System.Drawing.Point(12, 12);
             this.wyszukiwanieGrid.Name = "wyszukiwanieGrid";
+            this.wyszukiwanieGrid.ReadOnly = true;
             this.wyszukiwanieGrid.Size = new System.Drawing.Size(846, 800);
-            this.wyszukiwanieGrid.TabIndex = 6;
-            this.wyszukiwanieGrid.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Rok wydania";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Tytuł albumu";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Wykonawca";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Pochodzenie";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Cena";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "Ocena (1-10)";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Na stanie";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.wyszukiwanieGrid.TabIndex = 8;
             // 
             // Form1
             // 
@@ -558,6 +521,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1187, 824);
             this.Controls.Add(this.wyszukiwanieGrid);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -578,6 +542,7 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.wyszukiwanieGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -620,18 +585,12 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button w_liniowe;
-        private System.Windows.Forms.DataGridView wyszukiwanieGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox w_teks;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button w_binarne;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.DataGridView wyszukiwanieGrid;
     }
 }
 
