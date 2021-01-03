@@ -71,7 +71,6 @@ namespace Database {
             } else {
                 return false;
             }
-            return false;
         }
         private void button1_Click(object sender, EventArgs e) {
             dataGridView1.Visible = true;
@@ -174,14 +173,18 @@ namespace Database {
                 if (lines.Count() > 0) {
                     foreach (var cellValues in lines.Skip(0)) {
                         var cellArray = cellValues.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (cellArray.Length == dataGridView1.Columns.Count) {
-                            dataGridView1.Rows.Add(cellArray);
+                        if (cellArray.Length == 8) {
+                            albums.Add(new Album() { ID = Convert.ToInt32(cellArray[0]), release_year = Convert.ToInt32(cellArray[1]), album_title = cellArray[2], artist = cellArray[3], origin = cellArray[4], price = Convert.ToInt32(cellArray[5]), rating = Convert.ToDouble(cellArray[6]), isAvailable = Convert.ToBoolean(cellArray[7]) });
                             id++;
                         }
                     }
                 }
+                var bindingList = new BindingList<Album>(albums);
+                var source = new BindingSource(bindingList, null);
+                dataGridView1.DataSource = source;
                 MessageBox.Show("Pomyślnie zaimportowano bazę");
                 flaga_importu++;
+
             } else {
                 MessageBox.Show("Baza została już wczytana");
             }
@@ -238,6 +241,7 @@ namespace Database {
 
 
         private void w_liniowe_Click(object sender, EventArgs e) {
+            sw.Reset();
             List<Album> Results = new List<Album>();
             wyszukiwanieGrid.Rows.Clear();
             string value = w_teks.Text;
@@ -272,7 +276,7 @@ namespace Database {
             wyszukiwanieGrid.DataSource = source;
             dataGridView1.Visible = false;
             wyszukiwanieGrid.Visible = true;
-            label17.Text = sw.ElapsedMilliseconds.ToString() + " ms.";
+            label17.Text = "Czas: " + sw.Elapsed.ToString();
         }
 
         private void button6_Click(object sender, EventArgs e) {
@@ -339,12 +343,14 @@ namespace Database {
         }
 
         private void w_binarne_Click(object sender, EventArgs e) {
+            sw.Reset();
             bool fail = false;
             wyszukiwanieGrid.Rows.Clear();
             List<Album> SortedList = new List<Album>();
             List<Album> Results = new List<Album>();
             int property = comboBox1.SelectedIndex;
             int position = 1;
+            try {
             switch (property) {
                 case 0:
                     SortedList = albums.OrderBy(o => o.ID).ToList();
@@ -459,15 +465,19 @@ namespace Database {
                         SortedList.RemoveAt(position);
                     }
                     sw.Stop();
-                    break;
-            }
-            var bindingList = new BindingList<Album>(Results);
-            var source = new BindingSource(bindingList, null);
-            wyszukiwanieGrid.DataSource = source;
+                    break;   
+                }
+                var bindingList = new BindingList<Album>(Results);
+                var source = new BindingSource(bindingList, null);
+                wyszukiwanieGrid.DataSource = source;
 
-            dataGridView1.Visible = false;
-            wyszukiwanieGrid.Visible = true;
-            label17.Text = sw.Elapsed.ToString();
+                dataGridView1.Visible = false;
+                wyszukiwanieGrid.Visible = true;
+                label17.Text = "Czas test: " + sw.Elapsed.ToString();
+            } catch(FormatException) {
+                MessageBox.Show("Wprowadzono zły format");
+            }
+
         }
     }
 }
