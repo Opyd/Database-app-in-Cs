@@ -15,23 +15,32 @@ namespace Database {
             InitializeComponent();
             
         }
+
         public class Album {
             public int ID { get; set; }
             public int release_year { get; set; }
-            public string album_title { get; set; }
-            public string artist { get; set; }
-            public string origin { get; set; }
+            public String album_title { get; set; }
+            public String artist { get; set; }
+            public String origin { get; set; }
             public double price { get; set; }
             public double rating { get; set; }
             public bool isAvailable { get; set; }
 
+            void showdata() {
+                Debug.Write(this.ID + " " + this.release_year + " " + this.album_title + " " + this.artist);
+            
+            }
+
         }
-        
+
+        int flaga_losowanie = 0;
         public int id = 1;
         private Stopwatch sw = new Stopwatch();
 
         List<Album> albums = new List<Album>();
 
+        List<List<List<string>>> OriginsListInverionsSet = new List<List<List<string>>>();
+        List<List<List<string>>> OriginsListChainSet = new List<List<List<string>>>();
 
         public static bool isValid(string text, int mode) {
             string strRegex;
@@ -190,6 +199,131 @@ namespace Database {
             }
         }
 
+        private List<T> DodajZListy<T>(List<T> ListaZ, int _z, int _do) {
+            List<T> listRegion = new List<T>();
+            for (int i = _z; i < _do; i++) {
+                listRegion.Add(ListaZ[i]);
+            }
+            return listRegion;
+        }
+
+        private List<List<string>> CreateOriginsTableForChainSearch(List<Album> _lista, int property) {
+            List<List<string>> ListOfPointer = new List<List<string>>();
+            List<string> TempList = new List<string>();
+
+            int counter = 0;
+            bool titleAdded = false;
+
+            void CreateTable<T>(int i, T value, T valuePrev) {
+                Comparer<T> Comp = Comparer<T>.Default;
+                void AddToList(bool a, bool b) {
+                    if(!a || !b) { return; }
+                    TempList.Insert(2, (counter).ToString());
+                    ListOfPointer.Add(DodajZListy(TempList, 0, 3)); titleAdded = false; counter = 0;
+                }
+                AddToList(i > 0, Comp.Compare(value, valuePrev) > 0);
+                if (!titleAdded) {
+                    TempList.Insert(0, value.ToString());
+                    TempList.Insert(1, i.ToString());
+                    titleAdded = true;
+                }
+                counter++;
+
+                AddToList(i == (_lista.Count - 1), true);
+            }
+            int I(int i) { return (i > 0) ? i - 1 : i; }
+            switch (property) {
+                case 0:for(int i = 0; i < _lista.Count; i++) { CreateTable<int>(i, _lista[i].ID, _lista[I(i)].ID); }break;
+                case 1:for(int i = 0; i < _lista.Count; i++) { CreateTable<int>(i, _lista[i].release_year, _lista[I(i)].release_year); }break;
+                case 2:for(int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].album_title, _lista[I(i)].album_title); } break;
+                case 3:for(int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].artist, _lista[I(i)].artist); } break;
+                case 4:for(int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].origin, _lista[I(i)].origin); } break;
+                case 5:for(int i = 0; i < _lista.Count; i++) { CreateTable<double>(i, _lista[i].price, _lista[I(i)].price); } break;
+                case 6:for(int i = 0; i < _lista.Count; i++) { CreateTable<double>(i, _lista[i].rating, _lista[I(i)].rating); } break;
+                case 7:for(int i = 0; i < _lista.Count; i++) { CreateTable<bool>(i, _lista[i].isAvailable, _lista[I(i)].isAvailable); } break;
+            }
+            void show() {
+                Debug.WriteLine("[Cecha], [Pierwsze wystąpienie], [Liczba wystąpień]");
+                for(int i = 0; i < ListOfPointer.Count; i++) {
+                    for(int j = 0; j < ListOfPointer[i].Count; j++) { Debug.Write("[" + ListOfPointer[i][j] + "]"); }
+                    Debug.Write("\n");
+                }
+                Console.Write("_______________________\n");
+            }
+            show();
+            return ListOfPointer;
+        }
+
+
+        private List<List<string>> CreateOriginsTableForInversionListSearch(List<Album> _lista, int property) {
+
+            List<List<string>> ListOfPointer = new List<List<string>>();
+            List<string> TempList = new List<string>();
+            int counter = 0;
+            bool titleAdded = false;
+
+            void CreateTable<T>(int i, T value, T valuePrev, int id) {
+                Comparer<T> Comp = Comparer<T>.Default;
+                void AddToList(bool a, bool b) {
+                    if (!a || !b) { return; }
+                    int J = ((TempList.Count - counter) > 0) ? (TempList.Count - counter) : 0;
+                    ListOfPointer.Add(DodajZListy(TempList, J, TempList.Count)); titleAdded = false; counter = 0;
+                }
+                AddToList(i > 0, Comp.Compare(value, valuePrev) > 0);
+
+                if (!titleAdded) { TempList.Add((value).ToString()); titleAdded = true; counter++; }
+                TempList.Add((id).ToString()); counter++;
+
+                AddToList(i == (_lista.Count - 1), true);
+            }
+            int I(int i) { return (i > 0) ? i - 1 : i; }
+
+
+            switch (property) {
+                case 0: for (int i = 0; i < _lista.Count; i++) { CreateTable<int>(i, _lista[i].ID, _lista[I(i)].ID,_lista[i].ID); } break;
+                case 1: for (int i = 0; i < _lista.Count; i++) { CreateTable<int>(i, _lista[i].release_year, _lista[I(i)].release_year, _lista[i].ID); } break;
+                case 2: for (int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].album_title, _lista[I(i)].album_title, _lista[i].ID); } break;
+                case 3: for (int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].artist, _lista[I(i)].artist, _lista[i].ID); } break;
+                case 4: for (int i = 0; i < _lista.Count; i++) { CreateTable<string>(i, _lista[i].origin, _lista[I(i)].origin, _lista[i].ID); } break;
+                case 5: for (int i = 0; i < _lista.Count; i++) { CreateTable<double>(i, _lista[i].price, _lista[I(i)].price, _lista[i].ID); } break;
+                case 6: for (int i = 0; i < _lista.Count; i++) { CreateTable<double>(i, _lista[i].rating, _lista[I(i)].rating, _lista[i].ID); } break;
+                case 7: for (int i = 0; i < _lista.Count; i++) { CreateTable<bool>(i, _lista[i].isAvailable, _lista[I(i)].isAvailable, _lista[i].ID); } break;
+            }
+
+
+            void show() {
+                Debug.WriteLine("[Cecha], [Indeks..]");
+                for (int i = 0; i < ListOfPointer.Count; i++) {
+                    for (int j = 0; j < ListOfPointer[i].Count; j++) { Debug.Write("[" + ListOfPointer[i][j] + "]"); }
+                    Debug.Write("\n");
+                }
+                Console.Write("_______________________\n");
+            }
+            show();
+
+            return ListOfPointer;
+        }
+
+
+
+
+
+        private List<Album> PosortujListePoWlasciwosci(List <Album> _lista, int property) {
+            List<Album> sorted = new List<Album>();
+            switch (property) {
+                case 0: sorted = _lista.OrderBy(o => o.ID).ToList(); break;
+                case 1: sorted = _lista.OrderBy(o => o.release_year).ToList();break;
+                case 2: sorted = _lista.OrderBy(o => o.album_title).ToList();break;
+                case 3: sorted = _lista.OrderBy(o => o.artist).ToList(); break;
+                case 4: sorted = _lista.OrderBy(o => o.origin).ToList(); break;
+                case 5: sorted = _lista.OrderBy(o => o.price).ToList(); break;
+                case 6: sorted = _lista.OrderBy(o => o.rating).ToList(); break;
+                case 7: sorted = _lista.OrderBy(o => o.isAvailable).ToList(); break;
+             
+            }
+            return sorted;
+        }
+
         private void button5_Click(object sender, EventArgs e) {
             dataGridView1.Visible = true;
             wyszukiwanieGrid.Visible = false;
@@ -211,12 +345,30 @@ namespace Database {
                 var bindingList = new BindingList<Album>(albums);
                 var source = new BindingSource(bindingList, null);
                 dataGridView1.DataSource = source;
-                sw.Stop();
-                MessageBox.Show("Czas losowania: " + sw.ElapsedMilliseconds.ToString() + " ms");
+                
 
+                if(flaga_losowanie == 0) {
+                    for(int i = 0; i < 8; i++) {
+                        List<Album> AlbumyPosortowane = PosortujListePoWlasciwosci(albums, i);
+                        List<List<string>> _inversion = CreateOriginsTableForInversionListSearch(AlbumyPosortowane,i);
+                        List<List<string>> _chain = CreateOriginsTableForChainSearch(AlbumyPosortowane,i);
+
+                        OriginsListChainSet.Add(_chain);
+                        OriginsListInverionsSet.Add(_inversion);
+
+                        //List<int> chaincon = CreateChainForOriginList(AlbumyPosortowane,i)
+                        //OriginsListChainSet.Add(chaincon);
+                    }
+                    
+
+                    flaga_losowanie = 1;
+                }
+                
+
+                sw.Stop();
+                MessageBox.Show("Czas losowania oraz tworzenia struktur indeksowych: " + sw.ElapsedMilliseconds.ToString() + " ms");
             }
         }
-
         public void losowanie(int currentid) {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
             bool nastanie;
@@ -246,28 +398,9 @@ namespace Database {
             wyszukiwanieGrid.Rows.Clear();
             string value = w_teks.Text;
             sw.Start();
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++) {
+            for (int i = 0; i < albums.Count; i++) {
                         if (dataGridView1.Rows[i].Cells[comboBox1.SelectedIndex].Value.ToString() == value) {
-                    //    wyszukiwanieGrid.Rows.Add(
-                    //        dataGridView1.Rows[i].Cells[0].Value,
-                    //        dataGridView1.Rows[i].Cells[1].Value,
-                    //        dataGridView1.Rows[i].Cells[2].Value,
-                    //        dataGridView1.Rows[i].Cells[3].Value,
-                    //        dataGridView1.Rows[i].Cells[4].Value,
-                    //        dataGridView1.Rows[i].Cells[5].Value,
-                    //        dataGridView1.Rows[i].Cells[6].Value,
-                    //        dataGridView1.Rows[i].Cells[7].Value
-                    //        );
-                            Results.Add(new Album {
-                                ID = Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value),
-                                release_year = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value),
-                                album_title = dataGridView1.Rows[i].Cells[2].Value.ToString(),
-                                artist = dataGridView1.Rows[i].Cells[3].Value.ToString(),
-                                origin = dataGridView1.Rows[i].Cells[4].Value.ToString(),
-                                price = Convert.ToDouble(dataGridView1.Rows[i].Cells[5].Value),
-                                rating = Convert.ToDouble(dataGridView1.Rows[i].Cells[6].Value),
-                                isAvailable = Convert.ToBoolean(dataGridView1.Rows[i].Cells[7].Value)
-                            });
+                            Results.Add(albums[i]);
                         }
                     }
             sw.Stop();
@@ -477,6 +610,10 @@ namespace Database {
             } catch(FormatException) {
                 MessageBox.Show("Wprowadzono zły format");
             }
+
+        }
+
+        private void w_lancuchowe_Click(object sender, EventArgs e) {
 
         }
     }
