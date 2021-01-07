@@ -59,6 +59,9 @@
             this.i_iloscrekordow = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.wyswietl_lancuch = new System.Windows.Forms.Button();
+            this.w_inewersyjne = new System.Windows.Forms.Button();
+            this.w_lancuchowe = new System.Windows.Forms.Button();
             this.w_binarne = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -66,9 +69,6 @@
             this.w_liniowe = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
-            this.w_lancuchowe = new System.Windows.Forms.Button();
-            this.w_inewersyjne = new System.Windows.Forms.Button();
-            this.wyswietl_lancuch = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -448,6 +448,36 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Wyszukiwania";
             // 
+            // wyswietl_lancuch
+            // 
+            this.wyswietl_lancuch.Location = new System.Drawing.Point(16, 178);
+            this.wyswietl_lancuch.Name = "wyswietl_lancuch";
+            this.wyswietl_lancuch.Size = new System.Drawing.Size(87, 40);
+            this.wyswietl_lancuch.TabIndex = 28;
+            this.wyswietl_lancuch.Text = "Wyświetl łańcuch";
+            this.wyswietl_lancuch.UseVisualStyleBackColor = true;
+            this.wyswietl_lancuch.Click += new System.EventHandler(this.wyswietl_lancuch_Click);
+            // 
+            // w_inewersyjne
+            // 
+            this.w_inewersyjne.Location = new System.Drawing.Point(185, 219);
+            this.w_inewersyjne.Name = "w_inewersyjne";
+            this.w_inewersyjne.Size = new System.Drawing.Size(87, 25);
+            this.w_inewersyjne.TabIndex = 27;
+            this.w_inewersyjne.Text = "Inwersyjne";
+            this.w_inewersyjne.UseVisualStyleBackColor = true;
+            this.w_inewersyjne.Click += new System.EventHandler(this.w_inewersyjne_Click);
+            // 
+            // w_lancuchowe
+            // 
+            this.w_lancuchowe.Location = new System.Drawing.Point(185, 178);
+            this.w_lancuchowe.Name = "w_lancuchowe";
+            this.w_lancuchowe.Size = new System.Drawing.Size(87, 25);
+            this.w_lancuchowe.TabIndex = 26;
+            this.w_lancuchowe.Text = "Łańcuchowe";
+            this.w_lancuchowe.UseVisualStyleBackColor = true;
+            this.w_lancuchowe.Click += new System.EventHandler(this.w_lancuchowe_Click);
+            // 
             // w_binarne
             // 
             this.w_binarne.Location = new System.Drawing.Point(185, 134);
@@ -520,34 +550,6 @@
             this.wyszukiwanieGrid.ReadOnly = true;
             this.wyszukiwanieGrid.Size = new System.Drawing.Size(846, 800);
             this.wyszukiwanieGrid.TabIndex = 8;
-            // 
-            // w_lancuchowe
-            // 
-            this.w_lancuchowe.Location = new System.Drawing.Point(185, 178);
-            this.w_lancuchowe.Name = "w_lancuchowe";
-            this.w_lancuchowe.Size = new System.Drawing.Size(87, 25);
-            this.w_lancuchowe.TabIndex = 26;
-            this.w_lancuchowe.Text = "Łańcuchowe";
-            this.w_lancuchowe.UseVisualStyleBackColor = true;
-            this.w_lancuchowe.Click += new System.EventHandler(this.w_lancuchowe_Click);
-            // 
-            // w_inewersyjne
-            // 
-            this.w_inewersyjne.Location = new System.Drawing.Point(185, 219);
-            this.w_inewersyjne.Name = "w_inewersyjne";
-            this.w_inewersyjne.Size = new System.Drawing.Size(87, 25);
-            this.w_inewersyjne.TabIndex = 27;
-            this.w_inewersyjne.Text = "Inwersyjne";
-            this.w_inewersyjne.UseVisualStyleBackColor = true;
-            // 
-            // wyswietl_lancuch
-            // 
-            this.wyswietl_lancuch.Location = new System.Drawing.Point(16, 178);
-            this.wyswietl_lancuch.Name = "wyswietl_lancuch";
-            this.wyswietl_lancuch.Size = new System.Drawing.Size(87, 40);
-            this.wyswietl_lancuch.TabIndex = 28;
-            this.wyswietl_lancuch.Text = "Wyświetl łańcuch";
-            this.wyswietl_lancuch.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

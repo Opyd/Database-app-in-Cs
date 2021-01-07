@@ -41,7 +41,10 @@ namespace Database {
 
         List<List<List<string>>> OriginsListInverionsSet = new List<List<List<string>>>();
         List<List<List<string>>> OriginsListChainSet = new List<List<List<string>>>();
+        List<List<int>> ListChainSet = new List<List<int>>();
 
+        public string lancuch_a;
+        public string lancuch_b;
         public static bool isValid(string text, int mode) {
             string strRegex;
             Regex re;
@@ -207,7 +210,7 @@ namespace Database {
             return listRegion;
         }
 
-        private List<List<string>> CreateOriginsTableForChainSearch(List<Album> _lista, int property) {
+        public List<List<string>> CreateOriginsTableForChainSearch(List<Album> _lista, int property) {
             List<List<string>> ListOfPointer = new List<List<string>>();
             List<string> TempList = new List<string>();
 
@@ -242,7 +245,7 @@ namespace Database {
                 case 6:for(int i = 0; i < _lista.Count; i++) { CreateTable<double>(i, _lista[i].rating, _lista[I(i)].rating); } break;
                 case 7:for(int i = 0; i < _lista.Count; i++) { CreateTable<bool>(i, _lista[i].isAvailable, _lista[I(i)].isAvailable); } break;
             }
-            void show() {
+            void show_chains() {
                 Debug.WriteLine("[Cecha], [Pierwsze wystąpienie], [Liczba wystąpień]");
                 for(int i = 0; i < ListOfPointer.Count; i++) {
                     for(int j = 0; j < ListOfPointer[i].Count; j++) { Debug.Write("[" + ListOfPointer[i][j] + "]"); }
@@ -250,7 +253,7 @@ namespace Database {
                 }
                 Console.Write("_______________________\n");
             }
-            show();
+            show_chains();
             return ListOfPointer;
         }
 
@@ -295,6 +298,7 @@ namespace Database {
                 Debug.WriteLine("[Cecha], [Indeks..]");
                 for (int i = 0; i < ListOfPointer.Count; i++) {
                     for (int j = 0; j < ListOfPointer[i].Count; j++) { Debug.Write("[" + ListOfPointer[i][j] + "]"); }
+                    
                     Debug.Write("\n");
                 }
                 Console.Write("_______________________\n");
@@ -303,10 +307,6 @@ namespace Database {
 
             return ListOfPointer;
         }
-
-
-
-
 
         private List<Album> PosortujListePoWlasciwosci(List <Album> _lista, int property) {
             List<Album> sorted = new List<Album>();
@@ -322,6 +322,34 @@ namespace Database {
              
             }
             return sorted;
+        }
+
+        private List<int> CreateChainForOriginList(List<Album> _lista, int property) {
+            int Clamp(int val, int min, int max) { return (val < min) ? min : ((val > max) ? max : val); }
+            int Con(int a,int b, int c) { return Convert.ToInt32(OriginsListChainSet[a][b][c]); }
+
+            List<int> ListOfChains = new List<int>();
+            for(int i = 0; i < _lista.Count()+1; i++) { ListOfChains.Add(-2); }
+
+            for(int j= 0; j < _lista.Count+1; j++) {
+                int pos = Clamp(j, 0, OriginsListChainSet[property].Count - 1);
+                int count = Con(property, pos, 2),
+                    startingPoint = Con(property, pos, 1);
+
+                if(count == 1) { ListOfChains[_lista[startingPoint].ID] = -1; } else {
+                    for(int i = startingPoint; i<startingPoint + count; i++) {
+                        if (i == (startingPoint + count) - 1) { ListOfChains[_lista[i].ID] = -1; } 
+                        else { ListOfChains[_lista[i].ID] = _lista[i+1].ID; }
+                    }
+                }
+            }
+            Debug.WriteLine("Łańcuchy");
+            Debug.WriteLine("Pozycja:");
+            for (int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + j + "],");}
+            Debug.WriteLine("");
+            for(int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + ListOfChains[j] + "],"); }
+            Debug.Write("\n___________________\n");
+               return ListOfChains;
         }
 
         private void button5_Click(object sender, EventArgs e) {
@@ -356,8 +384,8 @@ namespace Database {
                         OriginsListChainSet.Add(_chain);
                         OriginsListInverionsSet.Add(_inversion);
 
-                        //List<int> chaincon = CreateChainForOriginList(AlbumyPosortowane,i)
-                        //OriginsListChainSet.Add(chaincon);
+                        List<int> chaincon = CreateChainForOriginList(AlbumyPosortowane, i);
+                        ListChainSet.Add(chaincon);
                     }
                     
 
@@ -486,7 +514,7 @@ namespace Database {
             try {
             switch (property) {
                 case 0:
-                    SortedList = albums.OrderBy(o => o.ID).ToList();
+                    SortedList = PosortujListePoWlasciwosci(albums, 0);
                     sw.Start();
                     while(position >= 0) {
                         position = SortedList.BinarySearch(new Album { ID = Convert.ToInt32(w_teks.Text) }, new IDComparer());
@@ -501,8 +529,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 1:
-                    SortedList = albums.OrderBy(o => o.release_year).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 1);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { release_year = Convert.ToInt32(w_teks.Text) }, new YearComparer());
                         if (position < 0) {
@@ -515,8 +543,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 2:
-                    SortedList = albums.OrderBy(o => o.album_title).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 2);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { album_title = w_teks.Text }, new TitleComparer());
                         if (position < 0) {
@@ -529,8 +557,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 3:
-                    SortedList = albums.OrderBy(o => o.artist).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 3);
+                        sw.Start();
                     while(position >= 0) {
                         position = SortedList.BinarySearch(new Album { artist = w_teks.Text }, new ArtistComparer());
                         if(position < 0) {
@@ -544,8 +572,8 @@ namespace Database {
                     
                     break;
                 case 4:
-                    SortedList = albums.OrderBy(o => o.origin).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 4);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { origin = w_teks.Text }, new OriginComparer());
                         if (position < 0) {
@@ -558,8 +586,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 5:
-                    SortedList = albums.OrderBy(o => o.price).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 5);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { price = Convert.ToDouble(w_teks.Text) }, new PriceComparer());
                         if (position < 0) {
@@ -572,8 +600,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 6:
-                    SortedList = albums.OrderBy(o => o.rating).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 6);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { rating = Convert.ToDouble(w_teks.Text) }, new RatingComparer());
                         if (position < 0) {
@@ -586,8 +614,8 @@ namespace Database {
                     sw.Stop();
                     break;
                 case 7:
-                    SortedList = albums.OrderBy(o => o.isAvailable).ToList();
-                    sw.Start();
+                    SortedList = PosortujListePoWlasciwosci(albums, 7);
+                        sw.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { isAvailable = Convert.ToBoolean(w_teks.Text) }, new AvabilityComparer());
                         if (position < 0 ) {
@@ -615,6 +643,66 @@ namespace Database {
 
         private void w_lancuchowe_Click(object sender, EventArgs e) {
 
+        }
+
+        private void w_inewersyjne_Click(object sender, EventArgs e) {
+
+            List<Album> Results = new List<Album>();
+
+            void DodajDoGrid(int i) {
+                dataGridView2.Rows.Add(albums[i].ID, albums[i].release_year, albums[i].album_title, albums[i].artist, albums[i].origin, albums[i].price, albums[i].rating, albums[i].isAvailable);
+            }
+            void DodajDoListy(int i) {
+                i = i - 1;
+                Results.Add(new Album() { ID = albums[i].ID, album_title = albums[i].album_title, release_year = albums[i].release_year, artist = albums[i].artist, origin = albums[i].origin, isAvailable = albums[i].isAvailable, price = albums[i].price, rating = albums[i].rating });
+            }
+
+            List<List<string>> OriginsTable = new List<List<string>>();
+            OriginsTable = OriginsListInverionsSet[comboBox1.SelectedIndex];
+            Debug.WriteLine("----------");
+            foreach(List<string>thing in OriginsTable) {
+                foreach(String _string in thing) {
+                    Debug.WriteLine(_string);
+                }
+                Debug.WriteLine("++++++++");
+            }
+            Debug.WriteLine("----------");
+            Stopwatch stp = new Stopwatch();
+            stp.Start();
+            for(int i = 0;  i < OriginsTable.Count(); i++) {
+                if(OriginsTable[i][0] == w_teks.Text) {
+                    for(int j = 1; j < OriginsTable[i].Count(); j++) {
+                        Debug.WriteLine(OriginsTable[i][j] + ", ");
+                        //DodajDoGrid(Convert.ToInt32(OriginsTable[i][j]));
+                        DodajDoListy(Convert.ToInt32(OriginsTable[i][j]));
+                        }
+                   break;
+                }
+            }
+            stp.Stop();
+            var bindingList = new BindingList<Album>(Results);
+            var source = new BindingSource(bindingList, null);
+            wyszukiwanieGrid.DataSource = source;
+            dataGridView1.Visible = false;
+            wyszukiwanieGrid.Visible = true;
+
+        }
+        
+
+
+        private void wyswietl_lancuch_Click(object sender, EventArgs e) {
+            if(comboBox1.SelectedIndex <0 || comboBox1.SelectedIndex > 7) {
+                MessageBox.Show("Wybierz najpierw kolumnę z listy!");
+            } else {
+                for (int i = 1; i < albums.Count + 1; i++) {
+                    lancuch_a += (i).ToString() + " , ";
+                    lancuch_b += ListChainSet[comboBox1.SelectedIndex][i].ToString() + " , ";
+                }
+                MessageBox.Show(lancuch_a + "\n" + lancuch_b);
+            }
+            lancuch_a = "";
+            lancuch_b = "";
+            
         }
     }
 }
