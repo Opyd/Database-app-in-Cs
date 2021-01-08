@@ -69,6 +69,7 @@
             this.w_liniowe = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
+            this.Czasy = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -86,7 +87,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(846, 800);
+            this.dataGridView1.Size = new System.Drawing.Size(846, 882);
             this.dataGridView1.TabIndex = 0;
             // 
             // groupBox1
@@ -450,7 +451,7 @@
             // 
             // wyswietl_lancuch
             // 
-            this.wyswietl_lancuch.Location = new System.Drawing.Point(16, 178);
+            this.wyswietl_lancuch.Location = new System.Drawing.Point(18, 170);
             this.wyswietl_lancuch.Name = "wyswietl_lancuch";
             this.wyswietl_lancuch.Size = new System.Drawing.Size(87, 40);
             this.wyswietl_lancuch.TabIndex = 28;
@@ -548,14 +549,25 @@
             this.wyszukiwanieGrid.Location = new System.Drawing.Point(12, 12);
             this.wyszukiwanieGrid.Name = "wyszukiwanieGrid";
             this.wyszukiwanieGrid.ReadOnly = true;
-            this.wyszukiwanieGrid.Size = new System.Drawing.Size(846, 800);
+            this.wyszukiwanieGrid.Size = new System.Drawing.Size(846, 882);
             this.wyszukiwanieGrid.TabIndex = 8;
+            // 
+            // Czasy
+            // 
+            this.Czasy.Location = new System.Drawing.Point(972, 829);
+            this.Czasy.Name = "Czasy";
+            this.Czasy.Size = new System.Drawing.Size(75, 48);
+            this.Czasy.TabIndex = 9;
+            this.Czasy.Text = "Czasy wyszukiwań";
+            this.Czasy.UseVisualStyleBackColor = true;
+            this.Czasy.Click += new System.EventHandler(this.Czasy_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1187, 824);
+            this.ClientSize = new System.Drawing.Size(1187, 906);
+            this.Controls.Add(this.Czasy);
             this.Controls.Add(this.wyszukiwanieGrid);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.groupBox5);
@@ -630,6 +642,7 @@
         private System.Windows.Forms.Button wyswietl_lancuch;
         private System.Windows.Forms.Button w_inewersyjne;
         private System.Windows.Forms.Button w_lancuchowe;
+        private System.Windows.Forms.Button Czasy;
     }
 }
 

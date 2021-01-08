@@ -26,19 +26,16 @@ namespace Database {
             public double rating { get; set; }
             public bool isAvailable { get; set; }
 
-            void showdata() {
-                Debug.Write(this.ID + " " + this.release_year + " " + this.album_title + " " + this.artist);
-            
-            }
+           
 
         }
 
         int flaga_losowanie = 0;
         public int id = 1;
-        private Stopwatch sw = new Stopwatch();
+        private 
 
         List<Album> albums = new List<Album>();
-
+        string[] czasy = new string[] { "0", "0", "0", "0" };
         List<List<List<string>>> OriginsListInverionsSet = new List<List<List<string>>>();
         List<List<List<string>>> OriginsListChainSet = new List<List<List<string>>>();
         List<List<int>> ListChainSet = new List<List<int>>();
@@ -253,7 +250,7 @@ namespace Database {
                 }
                 Console.Write("_______________________\n");
             }
-            show_chains();
+            //show_chains();
             return ListOfPointer;
         }
 
@@ -303,7 +300,7 @@ namespace Database {
                 }
                 Console.Write("_______________________\n");
             }
-            show();
+           //show();
 
             return ListOfPointer;
         }
@@ -329,6 +326,7 @@ namespace Database {
             int Con(int a,int b, int c) { return Convert.ToInt32(OriginsListChainSet[a][b][c]); }
 
             List<int> ListOfChains = new List<int>();
+
             for(int i = 0; i < _lista.Count()+1; i++) { ListOfChains.Add(-2); }
 
             for(int j= 0; j < _lista.Count+1; j++) {
@@ -343,16 +341,17 @@ namespace Database {
                     }
                 }
             }
-            Debug.WriteLine("Łańcuchy");
-            Debug.WriteLine("Pozycja:");
-            for (int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + j + "],");}
-            Debug.WriteLine("");
-            for(int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + ListOfChains[j] + "],"); }
-            Debug.Write("\n___________________\n");
+            //Debug.WriteLine("Łańcuchy");
+            //Debug.WriteLine("Pozycja:");
+            //for (int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + j + "],");}
+            //Debug.WriteLine("");
+            //for(int j = 1; j < ListOfChains.Count; j++) { Debug.Write("[" + ListOfChains[j] + "],"); }
+            //Debug.Write("\n___________________\n");
                return ListOfChains;
         }
 
         private void button5_Click(object sender, EventArgs e) {
+            Stopwatch czas_losowania = new Stopwatch();
             dataGridView1.Visible = true;
             wyszukiwanieGrid.Visible = false;
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
@@ -365,7 +364,7 @@ namespace Database {
             }
             if (flaga == 0) {
                 int n = Convert.ToInt32(i_iloscrekordow.Text);
-                sw.Start();
+                czas_losowania.Start();
                 for (int i = 0; i < n; i++) {
                     losowanie(id);
                     id++;
@@ -373,10 +372,13 @@ namespace Database {
                 var bindingList = new BindingList<Album>(albums);
                 var source = new BindingSource(bindingList, null);
                 dataGridView1.DataSource = source;
-                
+                czas_losowania.Stop();
 
-                if(flaga_losowanie == 0) {
+                Stopwatch czas_tworzenia_struktur = new Stopwatch();
+                czas_tworzenia_struktur.Start();
+                if (flaga_losowanie == 0) {//
                     for(int i = 0; i < 8; i++) {
+                        
                         List<Album> AlbumyPosortowane = PosortujListePoWlasciwosci(albums, i);
                         List<List<string>> _inversion = CreateOriginsTableForInversionListSearch(AlbumyPosortowane,i);
                         List<List<string>> _chain = CreateOriginsTableForChainSearch(AlbumyPosortowane,i);
@@ -391,10 +393,10 @@ namespace Database {
 
                     flaga_losowanie = 1;
                 }
-                
 
-                sw.Stop();
-                MessageBox.Show("Czas losowania oraz tworzenia struktur indeksowych: " + sw.ElapsedMilliseconds.ToString() + " ms");
+
+                czas_tworzenia_struktur.Stop();
+                MessageBox.Show("Czas losowania: " + czas_losowania.ElapsedMilliseconds.ToString() + " ms\nCzas tworzenia struktór: " + czas_tworzenia_struktur.ElapsedMilliseconds.ToString() +" ms."); ;
             }
         }
         public void losowanie(int currentid) {
@@ -419,25 +421,26 @@ namespace Database {
             albums.Add(new Album { ID = id, album_title = tytuly[tIndex], artist = wykonawcy[wIndex], isAvailable = nastanie, origin = pochodzenie[pIndex], price = cena, rating = ocena, release_year = rok });
         }
 
-
+        
         private void w_liniowe_Click(object sender, EventArgs e) {
-            sw.Reset();
+            Stopwatch czas_linionwe = new Stopwatch();
             List<Album> Results = new List<Album>();
             wyszukiwanieGrid.Rows.Clear();
             string value = w_teks.Text;
-            sw.Start();
+            czas_linionwe.Start();
             for (int i = 0; i < albums.Count; i++) {
                         if (dataGridView1.Rows[i].Cells[comboBox1.SelectedIndex].Value.ToString() == value) {
                             Results.Add(albums[i]);
                         }
                     }
-            sw.Stop();
+            czas_linionwe.Stop();
             var bindingList = new BindingList<Album>(Results);
             var source = new BindingSource(bindingList, null);
             wyszukiwanieGrid.DataSource = source;
             dataGridView1.Visible = false;
             wyszukiwanieGrid.Visible = true;
-            label17.Text = "Czas: " + sw.Elapsed.ToString();
+            label17.Text = "Czas: " + czas_linionwe.Elapsed.ToString();
+            czasy[0] = czas_linionwe.Elapsed.ToString();
         }
 
         private void button6_Click(object sender, EventArgs e) {
@@ -503,8 +506,10 @@ namespace Database {
 
         }
 
+        
+
         private void w_binarne_Click(object sender, EventArgs e) {
-            sw.Reset();
+            Stopwatch czas_binarne = new Stopwatch();
             bool fail = false;
             wyszukiwanieGrid.Rows.Clear();
             List<Album> SortedList = new List<Album>();
@@ -515,7 +520,7 @@ namespace Database {
             switch (property) {
                 case 0:
                     SortedList = PosortujListePoWlasciwosci(albums, 0);
-                    sw.Start();
+                    czas_binarne.Start();
                     while(position >= 0) {
                         position = SortedList.BinarySearch(new Album { ID = Convert.ToInt32(w_teks.Text) }, new IDComparer());
                         if (position < 0) {
@@ -526,11 +531,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                    czas_binarne.Stop();
                     break;
                 case 1:
                     SortedList = PosortujListePoWlasciwosci(albums, 1);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { release_year = Convert.ToInt32(w_teks.Text) }, new YearComparer());
                         if (position < 0) {
@@ -540,11 +545,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;
                 case 2:
                     SortedList = PosortujListePoWlasciwosci(albums, 2);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { album_title = w_teks.Text }, new TitleComparer());
                         if (position < 0) {
@@ -554,11 +559,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;
                 case 3:
                     SortedList = PosortujListePoWlasciwosci(albums, 3);
-                        sw.Start();
+                        czas_binarne.Start();
                     while(position >= 0) {
                         position = SortedList.BinarySearch(new Album { artist = w_teks.Text }, new ArtistComparer());
                         if(position < 0) {
@@ -568,12 +573,12 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     
                     break;
                 case 4:
                     SortedList = PosortujListePoWlasciwosci(albums, 4);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { origin = w_teks.Text }, new OriginComparer());
                         if (position < 0) {
@@ -583,11 +588,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;
                 case 5:
                     SortedList = PosortujListePoWlasciwosci(albums, 5);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { price = Convert.ToDouble(w_teks.Text) }, new PriceComparer());
                         if (position < 0) {
@@ -597,11 +602,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;
                 case 6:
                     SortedList = PosortujListePoWlasciwosci(albums, 6);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { rating = Convert.ToDouble(w_teks.Text) }, new RatingComparer());
                         if (position < 0) {
@@ -611,11 +616,11 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;
                 case 7:
                     SortedList = PosortujListePoWlasciwosci(albums, 7);
-                        sw.Start();
+                        czas_binarne.Start();
                     while (position >= 0) {
                         position = SortedList.BinarySearch(new Album { isAvailable = Convert.ToBoolean(w_teks.Text) }, new AvabilityComparer());
                         if (position < 0 ) {
@@ -625,7 +630,7 @@ namespace Database {
                         Results.Add(SortedList.ElementAt(position));
                         SortedList.RemoveAt(position);
                     }
-                    sw.Stop();
+                        czas_binarne.Stop();
                     break;   
                 }
                 var bindingList = new BindingList<Album>(Results);
@@ -634,52 +639,57 @@ namespace Database {
 
                 dataGridView1.Visible = false;
                 wyszukiwanieGrid.Visible = true;
-                label17.Text = "Czas test: " + sw.Elapsed.ToString();
+                label17.Text = "Czas: " + czas_binarne.Elapsed.ToString();
+                czasy[1] = czas_binarne.Elapsed.ToString();
             } catch(FormatException) {
                 MessageBox.Show("Wprowadzono zły format");
             }
 
         }
 
+        
         private void w_lancuchowe_Click(object sender, EventArgs e) {
+             Stopwatch czas_lancuchowe = new Stopwatch();
+            //plz bartek
+    }
 
-        }
+        
 
         private void w_inewersyjne_Click(object sender, EventArgs e) {
-
+            Stopwatch czas_inewersyjne = new Stopwatch();
             List<Album> Results = new List<Album>();
 
-            void DodajDoGrid(int i) {
-                dataGridView2.Rows.Add(albums[i].ID, albums[i].release_year, albums[i].album_title, albums[i].artist, albums[i].origin, albums[i].price, albums[i].rating, albums[i].isAvailable);
-            }
             void DodajDoListy(int i) {
                 i = i - 1;
                 Results.Add(new Album() { ID = albums[i].ID, album_title = albums[i].album_title, release_year = albums[i].release_year, artist = albums[i].artist, origin = albums[i].origin, isAvailable = albums[i].isAvailable, price = albums[i].price, rating = albums[i].rating });
             }
 
             List<List<string>> OriginsTable = new List<List<string>>();
+
             OriginsTable = OriginsListInverionsSet[comboBox1.SelectedIndex];
-            Debug.WriteLine("----------");
-            foreach(List<string>thing in OriginsTable) {
-                foreach(String _string in thing) {
-                    Debug.WriteLine(_string);
-                }
-                Debug.WriteLine("++++++++");
-            }
-            Debug.WriteLine("----------");
-            Stopwatch stp = new Stopwatch();
-            stp.Start();
+            //Debug.WriteLine("----------");
+            //foreach(List<string>thing in OriginsTable) {
+            //    foreach(String _string in thing) {
+            //        Debug.WriteLine(_string);
+            //    }
+            //    Debug.WriteLine("++++++++");
+            //}
+            //Debug.WriteLine("----------");
+            
+            czas_inewersyjne.Start();
             for(int i = 0;  i < OriginsTable.Count(); i++) {
                 if(OriginsTable[i][0] == w_teks.Text) {
                     for(int j = 1; j < OriginsTable[i].Count(); j++) {
-                        Debug.WriteLine(OriginsTable[i][j] + ", ");
+                        //Debug.WriteLine(OriginsTable[i][j] + ", ");
                         //DodajDoGrid(Convert.ToInt32(OriginsTable[i][j]));
                         DodajDoListy(Convert.ToInt32(OriginsTable[i][j]));
                         }
                    break;
                 }
             }
-            stp.Stop();
+            czas_inewersyjne.Stop();
+            label17.Text = "Czas: " + czas_inewersyjne.Elapsed.ToString();
+            czasy[3]= czas_inewersyjne.Elapsed.ToString();
             var bindingList = new BindingList<Album>(Results);
             var source = new BindingSource(bindingList, null);
             wyszukiwanieGrid.DataSource = source;
@@ -703,6 +713,13 @@ namespace Database {
             lancuch_a = "";
             lancuch_b = "";
             
+        }
+
+        private void Czasy_Click(object sender, EventArgs e) {
+            MessageBox.Show("W. liniowe: " + czasy[0]
+                + "\nW. binarne: " + czasy[1]
+                + "\nW. łańcuchowe: " +czasy[2]
+                + "\nW. inwersyjne: " + czasy[3]);
         }
     }
 }
