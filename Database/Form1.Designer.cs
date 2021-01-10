@@ -70,6 +70,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.wyszukiwanieGrid = new System.Windows.Forms.DataGridView();
             this.Czasy = new System.Windows.Forms.Button();
+            this.wyswietl_inwersyjną = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -434,6 +435,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.wyswietl_inwersyjną);
             this.groupBox5.Controls.Add(this.wyswietl_lancuch);
             this.groupBox5.Controls.Add(this.w_inewersyjne);
             this.groupBox5.Controls.Add(this.w_lancuchowe);
@@ -451,7 +453,7 @@
             // 
             // wyswietl_lancuch
             // 
-            this.wyswietl_lancuch.Location = new System.Drawing.Point(18, 170);
+            this.wyswietl_lancuch.Location = new System.Drawing.Point(18, 198);
             this.wyswietl_lancuch.Name = "wyswietl_lancuch";
             this.wyswietl_lancuch.Size = new System.Drawing.Size(87, 40);
             this.wyswietl_lancuch.TabIndex = 28;
@@ -536,7 +538,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(874, 781);
+            this.label17.Location = new System.Drawing.Point(864, 827);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(0, 13);
             this.label17.TabIndex = 7;
@@ -554,13 +556,23 @@
             // 
             // Czasy
             // 
-            this.Czasy.Location = new System.Drawing.Point(972, 829);
+            this.Czasy.Location = new System.Drawing.Point(1049, 818);
             this.Czasy.Name = "Czasy";
-            this.Czasy.Size = new System.Drawing.Size(75, 48);
+            this.Czasy.Size = new System.Drawing.Size(87, 48);
             this.Czasy.TabIndex = 9;
             this.Czasy.Text = "Czasy wyszukiwań";
             this.Czasy.UseVisualStyleBackColor = true;
             this.Czasy.Click += new System.EventHandler(this.Czasy_Click);
+            // 
+            // wyswietl_inwersyjną
+            // 
+            this.wyswietl_inwersyjną.Location = new System.Drawing.Point(18, 134);
+            this.wyswietl_inwersyjną.Name = "wyswietl_inwersyjną";
+            this.wyswietl_inwersyjną.Size = new System.Drawing.Size(87, 58);
+            this.wyswietl_inwersyjną.TabIndex = 29;
+            this.wyswietl_inwersyjną.Text = "Wyświetl tablice inwersyjną";
+            this.wyswietl_inwersyjną.UseVisualStyleBackColor = true;
+            this.wyswietl_inwersyjną.Click += new System.EventHandler(this.wyswietl_inwersyjną_Click);
             // 
             // Form1
             // 
@@ -643,6 +655,7 @@
         private System.Windows.Forms.Button w_inewersyjne;
         private System.Windows.Forms.Button w_lancuchowe;
         private System.Windows.Forms.Button Czasy;
+        private System.Windows.Forms.Button wyswietl_inwersyjną;
     }
 }
 
